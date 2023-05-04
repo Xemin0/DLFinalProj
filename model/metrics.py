@@ -35,18 +35,35 @@ WGAN-GP
 '''
 # Loss Functions
 # New Discriminator Loss WGAN
-def d_wloss(d_fake:tf.Tensor, d_real:tf.Tensor) -> tf.Tensor:
+# consists of:
+#           - Wasserstein-Distance of d_fake and d_real (latent space of imgs)
+#           - Reconstruction Loss: Pixel-wise MSE loss
+#           - Content Loss:        MSE Loss Hyperimages/High Level Features
+def d_wloss(d_fake:tf.Tensor, d_real:tf.Tensor, img_fake:tf.Tensor, img_real:tf.Tensor) -> tf.Tensor:
     real_loss = tf.reduce_mean(d_real)
     fake_loss = tf.reduce_mean(d_fake)
-    return fake_loss - real_loss # as we want to minimize the incorrect guesses and maximize the correct guesses
+    return fake_loss - real_loss # Wasserstein-Distance: as we want to minimize the incorrect guesses and maximize the correct guesses
+
 
 # New Generator Loss WGAN
 def g_wloss(d_fake:tf.Tensor, d_real:tf.Tensor) -> tf.Tensor:
-    return -tf.reduce_mean(d_fake)
+    return -tf.reduce_mean(d_fake)\
+            + reconstructionLoss(img_fake, img_real)\
+            + contentLoss(img_fake, img_real)
+
+
+# Pixel-wise MSE Loss
+def reconstructionLoss(img_fake:tf.Tensor, img_real:tf.Tensor):
+    diff = img_fake - img_real
+    return tf.reduce_mean(diff ** 2)
+# MSE of Hyperimages(fake - real)
+# Hyper Images are constructed by taking intermediate output feature maps
+# from a Pretrained model (ResNet108)
+def contentLoss(img_fake:tf.Tensor, img_real:tf.Tensor):
+   return 0
 
 '''
 Will not be Used ??!!
-'''
 # Acc Functions (Discriminator/Critic Output Logits instead of Probabilities)
 def d_wacc_fake(d_fake:tf.Tensor, d_real:tf.Tensor)  -> tf.Tensor:
     return acc_func(tf.zeros_like(d_fake), tf.nn.sigmoid(d_fake))
@@ -56,3 +73,4 @@ def d_wacc_real(d_fake:tf.Tensor, d_real:tf.Tensor)  -> tf.Tensor:
 
 def g_wacc(d_fake:tf.Tensor, d_real:tf.Tensor) -> tf.Tensor:
     return acc_func(tf.ones_like(d_fake), tf.nn.sigmoid(d_fake))
+'''

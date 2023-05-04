@@ -5,6 +5,10 @@ import IPython.display
 
 from model.Generator import Generator
 #from model.Discriminator import Discriminator
+from model.metrics import d_wloss, g_wloss
+
+from data.preprocess import TrainDatasetFromFolder()
+
 from utils.CallBack import EpochVisualizer
 
 
@@ -34,11 +38,7 @@ wgan_model0.compile(
         'd_loss' : d_wloss,
         'g_loss' : g_wloss,
     },
-    accuracies = {
-        'd_acc_real' : d_wacc_real,
-        'd_acc_fake' : d_wacc_fake,
-        'g_acc' : g_wacc,
-    }
+    accuracies = {}
 )
 
 
