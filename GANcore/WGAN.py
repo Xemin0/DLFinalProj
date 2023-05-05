@@ -1,6 +1,6 @@
 import tensorflow as tf
 
-from WGAN_Core import WGAN_Core
+from .WGAN_Core import WGAN_Core
 
 class WGAN(WGAN_Core):
     '''
@@ -140,3 +140,4 @@ class WGAN(WGAN_Core):
             metrics[key] = func(d_fake, d_real)
 
           return metrics
+        

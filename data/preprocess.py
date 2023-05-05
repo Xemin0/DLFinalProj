@@ -7,8 +7,8 @@ from PIL import Image
 
 
 
-def TrainDatasetFromFolder():
-    dataset_dir = "../Datasets/DIV2K_train_HR/DIV2K_train_HR/"
+def TrainDatasetFromFolder(dataset_dir = "./Datasets"):
+    dataset_dir = join(dataset_dir, 'DIV2K_train_HR/DIV2K_train_HR/')
     image_filenames = [join(dataset_dir, i) for i in listdir(dataset_dir)]
     lr_images = []
     hr_images = []

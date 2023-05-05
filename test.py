@@ -3,7 +3,7 @@ from tensorflow import keras
 
 import IPython.display
 
-from GANcore.GAN_Core import WGAN
+from GANcore.WGAN import WGAN
 from model.Generator import Generator
 from model.Discriminator import Discriminator
 from model.metrics import d_wloss, g_wloss
@@ -54,7 +54,7 @@ Prepare the Samples for Callback Visualization - Normalized MNIST
 '''
 # Dataset
 # LR (input for Generator); HR = True; SR = (output of Generator)
-LR_imgs , HR_imgs = TrainDatasetFromFolder()
+LR_imgs , HR_imgs = TrainDatasetFromFolder('./Datasets')
 SR_imgs = wgan_model0.gen_model(LR_imgs)
 
 # pick 4 pictures for the call back

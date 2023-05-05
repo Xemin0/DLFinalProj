@@ -1,4 +1,4 @@
-from GAN_Core import GAN_Core
+from .GAN_Core import GAN_Core
 class WGAN_Core(GAN_Core):
     '''
     WGAN Base Class
