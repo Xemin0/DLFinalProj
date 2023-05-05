@@ -37,7 +37,7 @@ def TrainDatasetFromFolder(dataset_dir = "./Datasets"):
     #print(lr_images.shape)
     #print(lr_images[0].shape)
 
-    return lr_images, hr_images
+    return tf.cast(lr_images, dtype = tf.float32), tf.cast(hr_images, dtype = tf.float32)
 
 #TrainDatasetFromFolder()
 

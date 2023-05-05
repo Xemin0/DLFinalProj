@@ -1,4 +1,7 @@
 import tensorflow as tf
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+
 from tensorflow import keras
 
 import IPython.display
@@ -11,7 +14,6 @@ from model.metrics import d_wloss, g_wloss
 from data.preprocess import TrainDatasetFromFolder
 
 from utils.CallBack import EpochVisualizer
-
 
 
 '''
@@ -47,7 +49,7 @@ wgan_model0.compile(
 
 train_num = 500
 EPOCHS = 20
-BATCH_SIZE = 100
+BATCH_SIZE = 20
 
 '''
 Prepare the Samples for Callback Visualization - Normalized MNIST
@@ -55,6 +57,9 @@ Prepare the Samples for Callback Visualization - Normalized MNIST
 # Dataset
 # LR (input for Generator); HR = True; SR = (output of Generator)
 LR_imgs , HR_imgs = TrainDatasetFromFolder('./Datasets')
+LR_imgs = (LR_imgs-127.5)/127.5
+HR_imgs = (HR_imgs-127.5)/127.5
+
 SR_imgs = wgan_model0.gen_model(LR_imgs)
 
 # pick 4 pictures for the call back
