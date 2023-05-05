@@ -4,8 +4,36 @@ from WGAN_Core import WGAN_Core
 
 class WGAN(WGAN_Core):
     '''
-    WGAN Class with Gradient Penalty
+    WGAN Class with Gradient Penalty and ContentLoss(a pretrained model)
     '''
+    def __init__(self, pretrained = 'resnet50', hyperimg_ids = [0,2,5,11,12,15,20] , *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        '''
+        Pretrained Models for Content Loss.
+        Currently Support:
+                    - ResNet50
+                    - ResNet101
+
+                    - FCN101
+        '''
+        if 'resnet50' == pretrained.lower():
+            self.pretrained = 
+            # hyperimg_ids =  [0,11,12,13] for CAM
+        elif 'resnet101' == pretrained.lower():
+            self.pretrained = 
+            # hyperimg_ids = [2,22,24,25,27,28,29] for CAM
+            # hyperimg_ids = [0,19,27,28,29,30]
+        else:
+            raise Exception('Only supports resnet50 and resnet 101 for ContentLoss')
+
+        self.hyper_ids = hyperimg_ids
+
+    # MSE of Hyperimages(fake - real)
+    # Hyper Images are constructed by taking intermediate output feature maps
+    # from a Pretrained model (ResNet108)
+    def contentLoss(img_fake:tf.Tensor, img_real:tf.Tensor):
+        return 0
+
     def gradient_penalty(self, batch_size, x_fake, x_real):
         '''
         Calculate the Gradient Penalty.

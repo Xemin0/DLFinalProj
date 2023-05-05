@@ -1,5 +1,5 @@
 import tensorflow as tf
-from tensforflow import keras
+from tensorflow import keras
 
 import IPython.display
 
