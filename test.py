@@ -33,6 +33,8 @@ wgan_model0 = WGAN(
     name = 'wgan'
 )
 
+print('1')
+
 wgan_model0.compile(
     optimizers = {
         'd_opt' : tf.keras.optimizers.Adam(2e-4, beta_1 = 0.5, beta_2 = 0.9),
@@ -45,11 +47,11 @@ wgan_model0.compile(
     accuracies = {}
 )
 
+print('2')
 
-
-train_num = 500
-EPOCHS = 20
-BATCH_SIZE = 20
+train_num = 20
+EPOCHS = 2
+BATCH_SIZE = 4
 
 '''
 Prepare the Samples for Callback Visualization - Normalized MNIST
@@ -57,15 +59,19 @@ Prepare the Samples for Callback Visualization - Normalized MNIST
 # Dataset
 # LR (input for Generator); HR = True; SR = (output of Generator)
 LR_imgs , HR_imgs = TrainDatasetFromFolder('./Datasets')
+print('3')
 LR_imgs = (LR_imgs-127.5)/127.5
 HR_imgs = (HR_imgs-127.5)/127.5
 
 SR_imgs = wgan_model0.gen_model(LR_imgs)
-
+print('4')
 # pick 4 pictures for the call back
 true_sample = HR_imgs[train_num - 2 : train_num + 2]
 fake_sample = SR_imgs[train_num - 2 : train_num + 2]
+print('5')
 viz_callback0 = EpochVisualizer(wgan_model0, [true_sample, fake_sample])
+
+print('6')
 
 # Train the Model
 wgan_model0.fit(
@@ -80,7 +86,7 @@ wgan_model0.fit(
 
 ## Either Save the model/Visualizer
 ## or directly visualize the CallBack
-
+print('7')
 '''
 Visualizing the Results
 '''
