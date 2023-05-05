@@ -1,3 +1,4 @@
+import tensorflow as tf
 """
 GAN losses and Metrics
     
@@ -46,7 +47,7 @@ def d_wloss(d_fake:tf.Tensor, d_real:tf.Tensor, img_fake:tf.Tensor, img_real:tf.
 
 
 # New Generator Loss WGAN
-def g_wloss(d_fake:tf.Tensor, d_real:tf.Tensor) -> tf.Tensor:
+def g_wloss(d_fake:tf.Tensor, d_real:tf.Tensor, img_fake:tf.Tensor, img_real:tf.Tensor) -> tf.Tensor:
     return -tf.reduce_mean(d_fake)\
             + reconstructionLoss(img_fake, img_real)\
             + contentLoss(img_fake, img_real)

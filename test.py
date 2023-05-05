@@ -1,13 +1,14 @@
 import tensorflow as tf
-from tensforflow import keras
+from tensorflow import keras
 
 import IPython.display
 
+from GANcore.GAN_Core import WGAN
 from model.Generator import Generator
-#from model.Discriminator import Discriminator
+from model.Discriminator import Discriminator
 from model.metrics import d_wloss, g_wloss
 
-from data.preprocess import TrainDatasetFromFolder()
+from data.preprocess import TrainDatasetFromFolder
 
 from utils.CallBack import EpochVisualizer
 
@@ -21,10 +22,11 @@ Sample Code Snippets to Train and Run a GAN model
 '''
 Initialize the Network 
 '''
+z_dim = 256
 
 wgan_model0 = WGAN(
-    dis_model = get_crt_model(),
-    gen_model = get_gen_model(),
+    dis_model = Discriminator(),
+    gen_model = Generator(),
     z_dims = (None, z_dim),
     name = 'wgan'
 )
@@ -43,21 +45,26 @@ wgan_model0.compile(
 
 
 
-train_num = 50000
+train_num = 500
 EPOCHS = 20
+BATCH_SIZE = 100
 
 '''
 Prepare the Samples for Callback Visualization - Normalized MNIST
 '''
-# MNIST
-true_sample = X0[train_num-2 : train_num+2] ## 4 real images
-fake_sample = wgan_model0.z_sampler((4, *wgan_model0.z_dims[1:]))
+# Dataset
+# LR (input for Generator); HR = True; SR = (output of Generator)
+LR_imgs , HR_imgs = TrainDatasetFromFolder()
+SR_imgs = wgan_model0.gen_model(LR_imgs)
 
+# pick 4 pictures for the call back
+true_sample = HR_imgs[train_num - 2 : train_num + 2]
+fake_sample = SR_imgs[train_num - 2 : train_num + 2]
 viz_callback0 = EpochVisualizer(wgan_model0, [true_sample, fake_sample])
 
 # Train the Model
 wgan_model0.fit(
-    X0[:train_num], L0[:train_num],
+    LR_imgs[:train_num], HR_imgs[:train_num],
     dis_steps = 3,
     gen_steps = 1,
     gp_weight = 10.0,
@@ -72,5 +79,5 @@ wgan_model0.fit(
 '''
 Visualizing the Results
 '''
-viz_callback0.save_gif('generationMNIST')
-IPython.display.Image(open('generationMNIST.gif', 'rb').read())
+viz_callback0.save_gif('generated_samples/generationMNIST')
+IPython.display.Image(open('generated_samples/generationMNIST.gif', 'rb').read())
