@@ -21,6 +21,7 @@ class Generator(keras.Model):
 
         # UpSample Block Number for Sub-Pixel Convolutions
         #scale_factor = 4
+        # upsample_block_num = log(scale_factor) / log (2) = 2 default
         upsample_block_num = int(tf.math.log(scale_factor + 0.0) / tf.math.log(2.0))
 
         self.block1 = Sequential(
@@ -59,16 +60,17 @@ class Generator(keras.Model):
             [
                 layers.Conv2D(64 * 2 ** 2, kernel_size=3, padding="same"),
                 layers.Lambda(lambda x: tf.nn.depth_to_space(x, block_size=upsample_block_num)),
+                # output shape (None, H*num, W*num, C/(num*num))
                 layers.PReLU(),
                 layers.Conv2D(64 * 2 ** 2, kernel_size=3, padding="same"),
                 layers.Lambda(lambda x: tf.nn.depth_to_space(x, block_size=upsample_block_num)),
                 layers.PReLU(),
-                layers.Conv2D(64 * 2 ** 2, kernel_size=3, padding="same"),
-                layers.Lambda(lambda x: tf.nn.depth_to_space(x, block_size=upsample_block_num)),
-                layers.PReLU(),
-                layers.Conv2D(64 * 2 ** 2, kernel_size=3, padding="same"),
-                layers.Lambda(lambda x: tf.nn.depth_to_space(x, block_size=upsample_block_num)),
-                layers.PReLU(),
+                #layers.Conv2D(64 * 2 ** 2, kernel_size=3, padding="same"),
+                #layers.Lambda(lambda x: tf.nn.depth_to_space(x, block_size=upsample_block_num)),
+                #layers.PReLU(),
+                #layers.Conv2D(64 * 2 ** 2, kernel_size=3, padding="same"),
+                #layers.Lambda(lambda x: tf.nn.depth_to_space(x, block_size=upsample_block_num)),
+                #layers.PReLU(),
                 layers.Conv2D(3, kernel_size=9, padding="same", activation='tanh')
                 ## At the output layer `tanh` restric the results between [-1, 1]
             ]
