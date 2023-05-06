@@ -10,12 +10,16 @@ class WGAN(WGAN_Core):
     WGAN Class with Gradient Penalty and ContentLoss(a pretrained model)
 
     Generator:
-        - input shape   (None, 64, 64,3) by default
-        - output shape  (None,256,256,3) by default
+        - input  shape   (None, 64, 64,3) by default
+                 range   (-1,1)
+        - output shape   (None,256,256,3) by default
+                 range   (-1,1)
 
     Discriminator:
-        - input shape   (None, 256, 256, 3) by default
-        - output shape  (None, 1)
+        - input  shape   (None, 256, 256, 3) by default
+                 range   (-1,1)
+        - output shape   (None, 1)
+                 range   (-inf, +inf)
     '''
     def __init__(self, pretrained = 'resnet50', hyperimg_ids = [2,7,10,14],\
                  lr_shape = [64,64,3], hr_shape = [256,256,3] , *args, **kwargs):

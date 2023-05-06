@@ -12,7 +12,9 @@ class Generator(keras.Model):
         - Sub-Pixel Convolution for UpSampling
     Input:
         - Low-Resolution Image: default shape (64, 64, 3)
+                                Range (-1, 1)
         - High-Resolution Image: default shape (256, 256, 3)
+                                Range (-1, 1)
     '''
     def __init__(self, scale_factor = 4, name = 'gen_model', **kwargs):
         super(Generator, self).__init__(name = 'gen_model', **kwargs)
