@@ -10,12 +10,18 @@ class Generator(keras.Model):
     Primarily uses
         - Parametric ReLU as the activations;
         - Sub-Pixel Convolution for UpSampling
+    Input:
+        - Low-Resolution Image: default shape (64, 64, 3)
+                                Range (-1, 1)
+        - High-Resolution Image: default shape (256, 256, 3)
+                                Range (-1, 1)
     '''
     def __init__(self, scale_factor = 4, name = 'gen_model', **kwargs):
         super(Generator, self).__init__(name = 'gen_model', **kwargs)
 
         # UpSample Block Number for Sub-Pixel Convolutions
         #scale_factor = 4
+        # upsample_block_num = log(scale_factor) / log (2) = 2 default
         upsample_block_num = int(tf.math.log(scale_factor + 0.0) / tf.math.log(2.0))
 
         self.block1 = Sequential(
@@ -52,18 +58,19 @@ class Generator(keras.Model):
         # Sub-Pixel UpSampling
         self.block19 = Sequential(
             [
-                layers.Conv2D(64 * 2 ** 2, kernel_size=3, padding="same"),
+                layers.Conv2D(64 * upsample_block_num ** 2, kernel_size=3, padding="same"),
+                layers.Lambda(lambda x: tf.nn.depth_to_space(x, block_size=upsample_block_num)),
+                # output shape (None, H*num, W*num, C/(num*num))
+                layers.PReLU(),
+                layers.Conv2D(64 * upsample_block_num ** 2, kernel_size=3, padding="same"),
                 layers.Lambda(lambda x: tf.nn.depth_to_space(x, block_size=upsample_block_num)),
                 layers.PReLU(),
-                layers.Conv2D(64 * 2 ** 2, kernel_size=3, padding="same"),
-                layers.Lambda(lambda x: tf.nn.depth_to_space(x, block_size=upsample_block_num)),
-                layers.PReLU(),
-                layers.Conv2D(64 * 2 ** 2, kernel_size=3, padding="same"),
-                layers.Lambda(lambda x: tf.nn.depth_to_space(x, block_size=upsample_block_num)),
-                layers.PReLU(),
-                layers.Conv2D(64 * 2 ** 2, kernel_size=3, padding="same"),
-                layers.Lambda(lambda x: tf.nn.depth_to_space(x, block_size=upsample_block_num)),
-                layers.PReLU(),
+                #layers.Conv2D(64 * 2 ** 2, kernel_size=3, padding="same"),
+                #layers.Lambda(lambda x: tf.nn.depth_to_space(x, block_size=upsample_block_num)),
+                #layers.PReLU(),
+                #layers.Conv2D(64 * 2 ** 2, kernel_size=3, padding="same"),
+                #layers.Lambda(lambda x: tf.nn.depth_to_space(x, block_size=upsample_block_num)),
+                #layers.PReLU(),
                 layers.Conv2D(3, kernel_size=9, padding="same", activation='tanh')
                 ## At the output layer `tanh` restric the results between [-1, 1]
             ]

@@ -27,8 +27,8 @@ def TrainDatasetFromFolder(dataset_dir = "./Datasets"):
         hr_transform = tf.image.random_crop(hr_image, size = [crop_size,crop_size, hr_image.shape[-1]])
         lr_transform = tf.image.resize(hr_transform, size = (crop_size // upscale_factor, crop_size // upscale_factor))
         
-        lr_images.append(hr_transform)
-        hr_images.append(lr_transform)
+        lr_images.append(lr_transform)
+        hr_images.append(hr_transform)
         #print("hello")
         #print(hr_transform)
 
