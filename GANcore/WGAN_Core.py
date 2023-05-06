@@ -1,4 +1,4 @@
-from GAN_Core import GAN_Core
+from .GAN_Core import GAN_Core
 class WGAN_Core(GAN_Core):
     '''
     WGAN Base Class
@@ -10,16 +10,16 @@ class WGAN_Core(GAN_Core):
         self.criticize = self.discriminate
         self.crt_model = self.dis_model
 
-    def compile(self, optimizers, losses, accuracies, **kwargs):
+    def compile(self, optimizers, losses, **kwargs):
         super().compile(
             loss        = losses.values(),
             optimizer   = optimizers.values(),
-            metrics     = accuracies.values(),
+#            metrics     = accuracies.values(),
             **kwargs
         )
         self.loss_funcs = losses
         self.optimizers = optimizers
-        self.acc_funcs  = accuracies
+#        self.acc_funcs  = accuracies
 
 
     def fit(self, *args, gp_weight=10, dis_steps=1, gen_steps=1, **kwargs):

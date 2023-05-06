@@ -48,7 +48,7 @@ def d_wloss(d_fake:tf.Tensor, d_real:tf.Tensor, img_fake:tf.Tensor, img_real:tf.
 
 
 # New Generator Loss WGAN
-def g_wloss(d_fake:tf.Tensor, d_real:tf.Tensor) -> tf.Tensor:
+def g_wloss(d_fake:tf.Tensor, d_real:tf.Tensor, img_fake:tf.Tensor, img_real:tf.Tensor) -> tf.Tensor:
     return -tf.reduce_mean(d_fake)\
             + reconstructionLoss(img_fake, img_real)\
             #+ contentLoss(img_fake, img_real)   ## Will be added inside the train step
@@ -58,11 +58,7 @@ def g_wloss(d_fake:tf.Tensor, d_real:tf.Tensor) -> tf.Tensor:
 def reconstructionLoss(img_fake:tf.Tensor, img_real:tf.Tensor):
     diff = img_fake - img_real
     return tf.reduce_mean(diff ** 2)
-# MSE of Hyperimages(fake - real)
-# Hyper Images are constructed by taking intermediate output feature maps
-# from a Pretrained model (ResNet108)
-def contentLoss(img_fake:tf.Tensor, img_real:tf.Tensor):
-   return 0
+
 
 '''
 Will not be Used ??!!

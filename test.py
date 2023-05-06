@@ -38,7 +38,6 @@ wgan_model0.compile(
         'd_loss' : d_wloss,
         'g_loss' : g_wloss,
     },
-    accuracies = {}
 )
 
 

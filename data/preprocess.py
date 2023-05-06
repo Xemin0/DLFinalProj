@@ -7,8 +7,12 @@ from PIL import Image
 
 
 
-def TrainDatasetFromFolder():
-    dataset_dir = "../Datasets/DIV2K_train_HR/DIV2K_train_HR/"
+def TrainDatasetFromFolder(dataset_dir = './Datasets'):
+    '''
+    High Resolution Shape: (800, 256, 256, 3)
+    Low Resolution Shape:  (800, 64, 64, 3)
+    '''
+    dataset_dir = join(dataset_dir, "DIV2K_train_HR/DIV2K_train_HR/")
     image_filenames = [join(dataset_dir, i) for i in listdir(dataset_dir)]
     lr_images = []
     hr_images = []
@@ -27,8 +31,8 @@ def TrainDatasetFromFolder():
         hr_transform = tf.image.random_crop(hr_image, size = [crop_size,crop_size, hr_image.shape[-1]])
         lr_transform = tf.image.resize(hr_transform, size = (crop_size // upscale_factor, crop_size // upscale_factor))
         
-        lr_images.append(hr_transform)
-        hr_images.append(lr_transform)
+        lr_images.append(lr_transform)
+        hr_images.append(hr_transform)
         #print("hello")
         #print(hr_transform)
 
@@ -37,7 +41,7 @@ def TrainDatasetFromFolder():
     #print(lr_images.shape)
     #print(lr_images[0].shape)
 
-    return lr_images, hr_images
+    return tf.cast(lr_images, dtype = tf.float32), tf.cast(hr_images, dtype = tf.float32)
 
 #TrainDatasetFromFolder()
 
