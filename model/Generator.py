@@ -10,6 +10,9 @@ class Generator(keras.Model):
     Primarily uses
         - Parametric ReLU as the activations;
         - Sub-Pixel Convolution for UpSampling
+    Input:
+        - Low-Resolution Image: default shape (64, 64, 3)
+        - High-Resolution Image: default shape (256, 256, 3)
     '''
     def __init__(self, scale_factor = 4, name = 'gen_model', **kwargs):
         super(Generator, self).__init__(name = 'gen_model', **kwargs)
