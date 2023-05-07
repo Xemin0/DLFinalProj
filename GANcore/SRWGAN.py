@@ -30,7 +30,8 @@ class SRWGAN(WGAN_Core):
 
         - Loss:
             - Wasserstein Distance (D(fake) - D(real))
-            - Gradient-Penalty (Weighted)
+            - Gradient-Penalty  (Weighted)
+                                (Dynamically Weighted) - Lipschitz Constant - Reciprocal of Jacobian's Eigenvalues L_inf norm
 
     *** For Content Loss, by default we use a pretrained ResNet50 and
        take intermediate features at layer 2, 7, 10, 14
@@ -126,12 +127,12 @@ class SRWGAN(WGAN_Core):
           pred = self.crt_model(interpolates, training = True)
 
         # Graidents w.r.t. the input = interpolates
-        grads = tape.gradient(pred, [interpolates])[0]
+        grads = tape.gradient(pred, [interpolates])[0] ## The Same shape as the interpolates (b_sz, H, W, C)
+        ### Dynamic Weight - Lipschitz Constants?? Max EigenValue of the Jacobian
 
         # Calculate the norm of the gradients
         norm = tf.sqrt(tf.reduce_sum(tf.square(grads), axis = [1,2,3])) # All dimensions except for the batch dimension
         gradient_penalty = tf.reduce_mean((norm - 1.0) ** 2)
-
         return gradient_penalty
 
 
@@ -278,7 +279,11 @@ class SRWGAN(WGAN_Core):
         self.content_weight = content_weight
         super().fit(*args, **kwargs)
 
-    '''
-    Save the Model
-    '''
+'''
+Save the Model
+'''
+def save_model(model, args):
+    '''Save model based on arguments - args must have chkpt_path'''
+    Model.save_model(model, args.chkpt_path)
+    print(f"Model Save to '{args.chkpt_path}'")
 

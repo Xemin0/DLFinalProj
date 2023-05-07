@@ -32,8 +32,9 @@ parser.add_argument('--savemodel', type = bool, default = False, help = 'Whether
 
 args = parser.parse_args()
 
+
 '''
-Sample Code Snippets to Train and Run a GAN model
+Sample Code Snippets to Train and Save a GAN model
 '''
 
 
@@ -80,8 +81,8 @@ hres = (hres - 127.5) / 127.5
 '''
 Prepare the Samples for Callback Visualization - Centralized + Normalized
 '''
-true_sample = hres[args.trainnum-4 :]                         ## 4 High Resolution images
-fake_sample = srwgan_model.gen_model(lres[args.trainnum-4 :])   ## 4 Generated Super Resolution images
+true_sample = hres[args.trainnum-2 : args.trainnum]                         ## 2 High Resolution images
+fake_sample = srwgan_model.gen_model(lres[args.trainnum-2 : args.trainnum])   ## 2 Generated Super Resolution images
 print('high-res samples shape:', true_sample.shape)
 print('generatered super-res samples shape:', fake_sample.shape)
 
@@ -101,6 +102,9 @@ srwgan_model.fit(
 
 ## Either Save the model/Visualizer
 ## or directly visualize the CallBack
+
+if args.savemodel:
+    
 
 '''
 Visualizing the Results
