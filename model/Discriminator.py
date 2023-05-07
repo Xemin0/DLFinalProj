@@ -33,15 +33,15 @@ class Discriminator(keras.Model):
         self.block4 = self.__convBlock(128, strides = 2)
         self.block5 = self.__convBlock(256)
         self.block6 = self.__convBlock(256, strides = 2)
-        self.block7 = self.__convBlock(512)
-        self.block8 = self.__convBlock(512, strides = 2)
+        #self.block7 = self.__convBlock(512)
+        #self.block8 = self.__convBlock(512, strides = 2)
 
 
         self.linearBlock = Sequential([
             # Flatten for Linear layers
             layers.Flatten(),
-            layers.Dense(1024, activation = 'leaky_relu'),
             layers.Dense(512, activation = 'leaky_relu'),
+            layers.Dense(256, activation = 'leaky_relu'),
             layers.Dense(1),
         ])
 
@@ -64,9 +64,9 @@ class Discriminator(keras.Model):
         block4 = self.block4(block3)
         block5 = self.block5(block4)
         block6 = self.block6(block5)
-        block7 = self.block7(block6)
-        block8 = self.block8(block7)
+        #block7 = self.block7(block6)
+        #block8 = self.block8(block7)
 
-        linearBlock = self.linearBlock(block8)
+        linearBlock = self.linearBlock(block6)
         # No activation needed for Wasserstein Distances
         return linearBlock
