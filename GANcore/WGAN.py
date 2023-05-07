@@ -3,89 +3,20 @@ from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Input
 
 from .WGAN_Core import WGAN_Core
-from model.metrics import reconstructionLoss
 
 class WGAN(WGAN_Core):
     '''
-    WGAN Class with Gradient Penalty and ContentLoss(a pretrained model)
+    WGAN Class with Gradient Penalty 
 
     Generator:
-        - input  shape   (None, 64, 64,3) by default
-                 range   (-1,1)
-        - output shape   (None,256,256,3) by default
-                 range   (-1,1)
+        - input  z_samp Sampled by the z_sampler
+        - output x_fake
 
     Discriminator:
-        - input  shape   (None, 256, 256, 3) by default
-                 range   (-1,1)
+        - input  x_fake/x_real
         - output shape   (None, 1)
                  range   (-inf, +inf)
     '''
-    def __init__(self, pretrained = 'resnet50', hyperimg_ids = [2,7,10,14],\
-                 lr_shape = [64,64,3], hr_shape = [256,256,3] , *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        '''
-        Pretrained Models for Content Loss.
-        Currently Support:
-                    - ResNet50
-                    - ResNet101
-
-                    - VGG
-                    - FCN101
-        '''
-        ## ** Hard Coded For now ** ##
-        ### Needs Updates ### 
-        self.pretrained_name = pretrained
-        self.lr_shape = lr_shape
-        self.hr_shape = hr_shape
-
-        # Pretrained Model for the Content Loss
-        self.pretrained = build_pretrained(pretrained, hyperimg_ids, hr_shape)
-        self.pretrained.trainable = False
-
-        self.hyper_ids = hyperimg_ids
-
-    @staticmethod
-    def build_pretrained(pretrained, hyperimg_ids, input_shape):
-        if 'resnet50' == pretrained.lower():
-            model = tf.keras.applications.ResNet50(input_shape = input_shape, include_top = False)
-            # hyperimg_ids =  [0,11,12,13] for CAM
-        elif 'resnet101' == pretrained.lower():
-            model = tf.keras.applications.ResNet101(input_shape = input_shape, include_top = False)
-            # hyperimg_ids = [2,22,24,25,27,28,29] for CAM
-            # hyperimg_ids = [0,19,27,28,29,30]
-        else:
-            raise Exception('So far only supports resnet50 and resnet 101 for ContentLoss')
-
-        outputs = [model.layers[i].output for i in hyperimg_ids]
-
-        # Create a new Model that outputs the intermediate features from the pretrained model
-        # Input shape (batch_sz, H, W, C)
-        # Output Shape (batch_sz, fh, fw, c) for each layer 
-        return Model(inputs = model.input, outputs = outputs)
-
-    def contentLoss(self, img_fake:tf.Tensor, img_real:tf.Tensor):
-        '''
-        # MSE of Hyperimages(fake - real)
-        # Hyper Images are constructed by taking intermediate output feature maps
-        # from a Pretrained model (i.g.ResNet50)
-        '''
-
-        # Forward Pass of the Pretrained Model
-        # which returns intermediate output feature maps at specified hyperimg_ids
-        fakeFeatures = self.pretrained(img_fake)
-        realFeatures = self.pretrained(img_real)
-
-        ###******###
-        total_loss = tf.reduce_sum([reconstructionLoss(fake, real) for fake, real in zip(fakeFeatures, realFeatures)])
-        # record the total number of 'pixels'
-        #total_num = tf.reduce_sum([tf.size(fake) for fake in fakeFeatures])
-
-        # total_loss is the sum of MSE loss of each feature map
-        # total_num should then be the num of feature maps
-        total_num = tf.cast(len(self.hyper_ids), dtype = tf.float32)
-        return total_loss / total_num
-
     def gradient_penalty(self, batch_size, x_fake, x_real):
         '''
         Calculate the Gradient Penalty.
@@ -130,19 +61,10 @@ class WGAN(WGAN_Core):
 
         metrics = dict()
 
-        '''
         all_funcs = {**self.loss_funcs, **self.acc_funcs}
 
         for key, func in all_funcs.items():
           metrics[key] = func(d_fake, d_real, x_fake, x_real)
-        '''
-        for key, func in self.loss_funcs:
-            if 'd_loss' == key:
-                metrics[key] = func(d_fake, d_real, None, None)
-            elif 'g_loss' == key:
-                metrics[key] = func(d_fake, None, x_fake, x_real) + self.contentLoss(x_fake, x_real)
-            else:
-                raise Exception('d_loss and g_loss are recommended for Keys of Losses Dictionary.')
         return metrics
 
     def train_step(self, data):
@@ -203,7 +125,7 @@ class WGAN(WGAN_Core):
             d_fake = self.criticize(x_fake, training = True)
             # Generator Loss
             ##  - -D(fake) + reconstructionLoss + contentLoss
-            g_loss = loss_fn(d_fake, None, x_fake, x_real) + self.contentLoss(x_fake, x_real)
+            g_loss = loss_fn(d_fake, None, x_fake, x_real)
 
           # Get the gradients of g_loss w.r.t. the Generator's parameters
           g = tape.gradient(g_loss, self.gen_model.trainable_variables)
@@ -223,18 +145,9 @@ class WGAN(WGAN_Core):
 
         metrics = dict()
 
-        '''
         all_funcs = {**self.loss_funcs, **self.acc_funcs}
 
         for key, func in all_funcs.items():
             metrics[key] = func(d_fake, d_real)
-        '''
 
-        for key, func in self.loss_funcs:
-            if 'd_loss' == key:
-                metrics[key] = func(d_fake, d_real, None, None)
-            elif 'g_loss' == key:
-                metrics[key] = func(d_fake, None, x_fake, x_real) + self.contentLoss(x_fake, x_real)
-            else:
-                raise Exception('d_loss and g_loss are recommended for Keys of Losses Dictionary.')
         return metrics

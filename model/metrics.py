@@ -8,8 +8,8 @@ Inputs:
 - logits_fake: Tensor, shape[batch_size, 1], output of discriminator for each fake image
 """
 
-bce_func = tf.keras.backend.binary_crossentropy
-acc_func = tf.keras.metrics.binary_accuracy
+#bce_func = tf.keras.backend.binary_crossentropy
+#acc_func = tf.keras.metrics.binary_accuracy
 
 '''
 Vanilla GAN
@@ -34,6 +34,17 @@ def g_acc(d_fake:tf.Tensor, d_real:tf.Tensor) -> tf.Tensor:
 
 '''
 WGAN-GP
+def d_wloss(d_fake:tf.Tensor, d_real:tf.Tensor, img_fake:tf.Tensor, img_real:tf.Tensor) -> tf.Tensor:
+    real_loss = tf.reduce_mean(d_real)
+    fake_loss = tf.reduce_mean(d_fake)
+    return fake_loss - real_loss # Wasserstein-Distance: as we want to minimize the incorrect guesses and maximize the correct guesses
+
+def g_wloss(d_fake:tf.Tensor, d_real:tf.Tensor, img_fake:tf.Tensor, img_real:tf.Tensor) -> tf.Tensor:
+    return -tf.reduce_mean(d_fake)
+'''
+
+'''
+SRWGAN-GP
 '''
 # Loss Functions
 # New Discriminator Loss WGAN
@@ -41,14 +52,14 @@ WGAN-GP
 #           - Wasserstein-Distance of d_fake and d_real (latent space of imgs)
 #           - Reconstruction Loss: Pixel-wise MSE loss
 #           - Content Loss:        MSE Loss Hyperimages/High Level Features
-def d_wloss(d_fake:tf.Tensor, d_real:tf.Tensor, img_fake:tf.Tensor, img_real:tf.Tensor) -> tf.Tensor:
+def d_srloss(d_fake:tf.Tensor, d_real:tf.Tensor, img_fake:tf.Tensor, img_real:tf.Tensor) -> tf.Tensor:
     real_loss = tf.reduce_mean(d_real)
     fake_loss = tf.reduce_mean(d_fake)
     return fake_loss - real_loss # Wasserstein-Distance: as we want to minimize the incorrect guesses and maximize the correct guesses
 
 
 # New Generator Loss WGAN
-def g_wloss(d_fake:tf.Tensor, d_real:tf.Tensor, img_fake:tf.Tensor, img_real:tf.Tensor) -> tf.Tensor:
+def g_srloss(d_fake:tf.Tensor, d_real:tf.Tensor, img_fake:tf.Tensor, img_real:tf.Tensor) -> tf.Tensor:
     return -tf.reduce_mean(d_fake)\
             + reconstructionLoss(img_fake, img_real)\
             #+ contentLoss(img_fake, img_real)   ## Will be added inside the train step

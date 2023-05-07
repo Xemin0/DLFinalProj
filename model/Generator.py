@@ -5,19 +5,22 @@ from keras import layers, Sequential
 
 class Generator(keras.Model):
     '''
-    Generator for the GAN
+    Generator for the SRWGAN
+    *** tanh as the Activation at the Output to Guarantee a Centralized output around Zero ***
 
     Primarily uses
         - Parametric ReLU as the activations;
         - Sub-Pixel Convolution for UpSampling
+        - a Residual Block
     Input:
         - Low-Resolution Image: default shape (64, 64, 3)
                                 Range (-1, 1)
+    Output:
         - High-Resolution Image: default shape (256, 256, 3)
                                 Range (-1, 1)
     '''
     def __init__(self, scale_factor = 4, name = 'gen_model', **kwargs):
-        super(Generator, self).__init__(name = 'gen_model', **kwargs)
+        super(Generator, self).__init__(name = name, **kwargs)
 
         # UpSample Block Number for Sub-Pixel Convolutions
         #scale_factor = 4
@@ -58,11 +61,11 @@ class Generator(keras.Model):
         # Sub-Pixel UpSampling
         self.block19 = Sequential(
             [
-                layers.Conv2D(64 * 2 ** 2, kernel_size=3, padding="same"),
+                layers.Conv2D(64 * upsample_block_num ** 2, kernel_size=3, padding="same"),
                 layers.Lambda(lambda x: tf.nn.depth_to_space(x, block_size=upsample_block_num)),
                 # output shape (None, H*num, W*num, C/(num*num))
                 layers.PReLU(),
-                layers.Conv2D(64 * 2 ** 2, kernel_size=3, padding="same"),
+                layers.Conv2D(64 * upsample_block_num ** 2, kernel_size=3, padding="same"),
                 layers.Lambda(lambda x: tf.nn.depth_to_space(x, block_size=upsample_block_num)),
                 layers.PReLU(),
                 #layers.Conv2D(64 * 2 ** 2, kernel_size=3, padding="same"),
@@ -91,24 +94,24 @@ class Generator(keras.Model):
         )
 
     def call(self, inputs):
-        '''Forward Call of the Model'''
+        '''Forward Call of the Generator'''
         block1 = self.block1(inputs)
         block2 = self.block2(block1)
         block3 = self.block3(block2)
         block4 = self.block4(block3)
         block5 = self.block5(block4)
         block6 = self.block6(block5)
-        block7 = self.block4(block6)
-        block8 = self.block5(block7)
-        block9 = self.block6(block8)
-        block10 = self.block4(block9)
-        block11 = self.block5(block10)
-        block12 = self.block6(block11)
-        block13 = self.block4(block12)
-        block14 = self.block5(block13)
-        block15 = self.block6(block14)
-        block16 = self.block4(block15)
-        block17 = self.block5(block16)
+        block7 = self.block7(block6)
+        block8 = self.block8(block7)
+        block9 = self.block9(block8)
+        block10 = self.block10(block9)
+        block11 = self.block11(block10)
+        block12 = self.block12(block11)
+        block13 = self.block13(block12)
+        block14 = self.block14(block13)
+        block15 = self.block15(block14)
+        block16 = self.block16(block15)
+        block17 = self.block17(block16)
 
         block18 = self.block18(block17)
         block19 = self.block19(block1 + block18)
