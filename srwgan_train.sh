@@ -7,13 +7,13 @@
 #SBATCH -t 5:00:00
 
 # Number of Cores (max 4)
-#SBATCH -c 4
+#SBATCH -c 2
 
 # Single Node (Not yet optmized for Distributed Computing)
 #SBATCH -N 1
 
 # Request GPU partition and Access (max 2)
-#SBATCH -p gpu --gres=gpu:2
+#SBATCH -p gpu --gres=gpu:1
 
 # Request Memory (Not tested yet)
 #SBATCH --mem=20G
