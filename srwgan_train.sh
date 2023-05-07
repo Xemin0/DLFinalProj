@@ -13,7 +13,7 @@
 #SBATCH -N 1
 
 # Request GPU partition and Access (max 2)
-#SBATCH -p gpu --gres=gpu:2
+#SBATCH -p gpu --gres=gpu:1
 
 # Request Memory (Not tested yet)
 #SBATCH --mem=20G
