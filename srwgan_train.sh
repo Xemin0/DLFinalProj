@@ -4,7 +4,7 @@
 #SBATCH -J SRWGAN
 
 # Time Requested (Not tested yet)
-#SBATCH -t 15:00:00
+#SBATCH -t 5:00:00
 
 # Number of Cores (max 4)
 #SBATCH -c 4
@@ -16,7 +16,7 @@
 #SBATCH -p gpu --gres=gpu:2
 
 # Request Memory (Not tested yet)
-#SBATCH --mem=30G
+#SBATCH --mem=20G
 
 # Outputs
 #SBATCH -e ./scratch/SRWGAN.err
@@ -40,4 +40,4 @@ module load openssl/3.0.0 cuda/11.7.1 cudnn/8.2.0
 conda activate srwgan
 
 # Run the Python file with arguments
-python3 train_SRWGAN.py --trainnum 800 --epochs 500 --batchsz 10 --gpweight 15.0 --cweight 5 --savemodel True
+python3 train_SRWGAN.py --trainnum 800 --epochs 300 --batchsz 10 --gpweight 15.0 --cweight 5 --savemodel True
