@@ -40,4 +40,4 @@ module load openssl/3.0.0 cuda/11.7.1 cudnn/8.2.0
 conda activate srwgan
 
 # Run the Python file with arguments
-python3 train_SRWGAN.py --trainnum 800 --epochs 500 --batchsz 10 --gpweight 10.0 --cweight 0.001 --savemodel True
+python3 train_SRWGAN.py --trainnum 800 --epochs 500 --batchsz 10 --gpweight 15.0 --cweight 5 --savemodel True
