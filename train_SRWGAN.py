@@ -30,7 +30,7 @@ parser.add_argument('--gstep', type = int, default = 1, help = 'Number of Train 
 parser.add_argument('--gpweight', type = float, default = 10.0, help = 'Coefficient for the Gradient-Penalty Term in Discriminator Loss')
 parser.add_argument('--cweight', type = float, default = 1e-3, help = 'Coefficient for the Content Loss of Generator')
 parser.add_argument('--savemodel', type = bool, default = False, help = 'Whether to Save the Model')
-parser.add_argument('--chkpt_path', type = str, default = './SRWGAN_Model')
+parser.add_argument('--chkpt_path', type = str, default = './SRWGAN_Model', help = 'Path to Save or Load the Model')
 
 args = parser.parse_args()
 

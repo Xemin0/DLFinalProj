@@ -131,4 +131,5 @@ dmypy.json
 
 # Datasets
 Datasets/
-generated_samples
+generated_samples/
+scratch/
