@@ -34,10 +34,10 @@ nvidia-smi
 export PYTHONUNBUFFERED=TRUE
 
 # Load modules 
-#module load python/3.11.0 openssl/3.0.0 cuda/11.7.1 cudnn/8.2.0
+module load python/3.11.0 openssl/3.0.0 cuda/11.7.1 cudnn/8.2.0
 
-# Activate Conda Env
-#conda activate /anaconda3/envs/srwgan
+# Activate Python VEnv
+source ../tensorflow.venv/bin/activate
 
 # Run the Python file with arguments
 python3 train_SRWGAN.py --trainnum 600 --epochs 40 --batchsz 4 --gpweight 16.0 --cweight 4 --savemodel True
