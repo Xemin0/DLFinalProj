@@ -62,6 +62,24 @@ class SRWGAN(WGAN_Core):
         self.hyper_ids = hyperimg_ids
 
     '''
+    Calculate PSNR for sample images
+    '''
+    def psnr(samples):
+        low_res, high_res = samples
+        assert low_res.shape == high_res.shape, 'Input must be two sets of images of the same shape (bsz, H, W, C)'
+        super_res = self.gen_model(low_res)
+
+        # Decentralize
+        super_res = (super_res + 1) / 2
+        high_res = (high_res + 1) / 2
+
+        # Printouts
+        scores = tf.image.psnr(super_res, high_res, max_val = 1.0)
+        print('PSNR Achieved: ', scores )
+        print(f'Average PSNR for the {low_res.shape[0]} image pairs: {tf.reduce_mean(scores):.5f}')
+        return scores
+
+    '''
     Content Loss Part
     '''
     @staticmethod
@@ -278,6 +296,7 @@ class SRWGAN(WGAN_Core):
     def fit(self, *args, content_weight = 1e-3, **kwargs):
         self.content_weight = content_weight
         super().fit(*args, **kwargs)
+
 
 '''
 Save the Model

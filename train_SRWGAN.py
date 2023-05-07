@@ -14,6 +14,7 @@ from data.preprocess import TrainDatasetFromFolder
 ## Miscellaneous
 from utils.CallBack import EpochVisualizer
 import IPython.display
+from GANcore.SRWGAN import save_model
 
 import argparse
 
@@ -29,6 +30,7 @@ parser.add_argument('--gstep', type = int, default = 1, help = 'Number of Train 
 parser.add_argument('--gpweight', type = float, default = 10.0, help = 'Coefficient for the Gradient-Penalty Term in Discriminator Loss')
 parser.add_argument('--cweight', type = float, default = 1e-3, help = 'Coefficient for the Content Loss of Generator')
 parser.add_argument('--savemodel', type = bool, default = False, help = 'Whether to Save the Model')
+parser.add_argument('--chkpt_path', type = str, default = './SRWGAN_Model')
 
 args = parser.parse_args()
 
@@ -104,7 +106,18 @@ srwgan_model.fit(
 ## or directly visualize the CallBack
 
 if args.savemodel:
-    
+    save_model(srwgan_model, args.chkpt_path)
+else:
+    print('The model was not saved by default')
+
+
+'''
+Calculate PSNR for Sample Images - default calculating PSNR for 4 samples
+'''
+srwgan_model.psnr([
+    lres[args.trainnum-4 : args.trainnum],
+    hres[args.trainnum-4 : args.trainnum]
+])
 
 '''
 Visualizing the Results
