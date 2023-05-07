@@ -166,8 +166,13 @@ class SRWGAN(WGAN_Core):
         for key, func in self.loss_funcs.items():
             if 'd_loss' == key:
                 metrics[key] = func(d_fake, d_real, None, None)
+                metrics['gradient_penaty'] = self.gradient_penalty(batch_size, sres, hres)
+                metrics['gp_weight'] = self.gp_weight
             elif 'g_loss' == key:
-                metrics[key] = func(d_fake, None, sres, hres) + self.content_weight * self.contentLoss(sres, hres)
+                metrics['content_weight'] = self.content_weight
+                metrics['content_loss'] = self.contentLoss(sres, hres)
+                metrics[key] = func(d_fake, None, sres, hres)
+                metrics['g_loss_total'] = metrics[key] + self.content_weight * metrics['content_loss']
             else:
                 raise Exception('d_loss and g_loss are recommended for Keys of Losses Dictionary.')
         return metrics
@@ -188,9 +193,7 @@ class SRWGAN(WGAN_Core):
         # 6. Return the Generator and Discriminator Losses as a loss dictionary
 
         # Train the Discriminator First.
-        # The original paper recommends training
-        # the discriminator for 'n' more steps (typically 5) as compared to
-        # one step of the generator. 
+        ##################################################
 
         # Train for Discriminator/Critic
         loss_fn = self.loss_funcs['d_loss']
@@ -258,10 +261,16 @@ class SRWGAN(WGAN_Core):
         for key, func in self.loss_funcs.items():
             if 'd_loss' == key:
                 metrics[key] = func(d_fake, d_real, None, None)
+                metrics['gradient_penaty'] = self.gradient_penalty(batch_size, sres, hres)
+                metrics['gp_weight'] = self.gp_weight
             elif 'g_loss' == key:
-                metrics[key] = func(d_fake, None, sres, hres) + self.content_weight * self.contentLoss(sres, hres)
+                metrics['content_weight'] = self.content_weight
+                metrics['content_loss'] = self.contentLoss(sres, hres)
+                metrics[key] = func(d_fake, None, sres, hres)
+                metrics['g_loss_total'] = metrics[key] + self.content_weight * metrics['content_loss']
             else:
                 raise Exception('d_loss and g_loss are recommended for Keys of Losses Dictionary.')
+
         return metrics
 
     # Add content_weight for ContentLoss in SRWGAN-GP

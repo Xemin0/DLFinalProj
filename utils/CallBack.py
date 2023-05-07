@@ -52,7 +52,7 @@ class EpochVisualizer(tf.keras.callbacks.Callback):
         for i, ax in enumerate(axs.reshape(-1)):
             #out_numpy = np.squeeze(outputs[i].numpy(), -1) # For 3 Channel Images, there's no need to squeeze
             out_numpy = outputs[i].numpy()
-            ax.imshow(out_numpy, cmap='rgb')
+            ax.imshow(out_numpy) ##, cmap='rgb')
             ax.set_title(labels[i])
         self.imgs += [self.fig2img(fig)]
         plt.close(fig)
