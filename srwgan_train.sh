@@ -33,5 +33,11 @@ nvidia-smi
 # Force Printing Out `stdout`
 export PYTHONUNBUFFERED=TRUE
 
+# Load modules 
+module load openssl/3.0.0 cuda/11.7.1 cudnn/8.2.0
+
+# Activate Conda Env
+conda activate srwgan
+
 # Run the Python file with arguments
 python3 train_SRWGAN.py --trainnum 800 --epochs 500 --batchsz 10 --gpweight 10.0 --cweight 0.001 --savemodel True
