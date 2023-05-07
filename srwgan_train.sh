@@ -13,7 +13,7 @@
 #SBATCH -N 1
 
 # Request GPU partition and Access (max 2)
-#SBATCH -p gpu --gres=gpu:1
+#SBATCH -p gpu --gres=gpu:2
 
 # Request Memory (Not tested yet)
 #SBATCH --mem=20G
@@ -34,7 +34,7 @@ nvidia-smi
 export PYTHONUNBUFFERED=TRUE
 
 # Load modules 
-#module load openssl/3.0.0 cuda/11.7.1 cudnn/8.6.0
+#module load openssl/3.0.0 cuda/11.7.1 cudnn/8.2.0
 
 # Activate Conda Env
 #conda activate /anaconda3/envs/srwgan
