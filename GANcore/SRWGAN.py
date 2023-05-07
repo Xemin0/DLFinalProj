@@ -190,6 +190,7 @@ class SRWGAN(WGAN_Core):
             elif 'g_loss' == key:
                 metrics['content_weight'] = self.content_weight
                 metrics['content_loss'] = self.contentLoss(sres, hres)
+                metrics['reconstruction_loss'] = reconstructionLoss(sres, hres)
                 metrics[key] = func(d_fake, None, sres, hres)
                 metrics['g_loss_total'] = metrics[key] + self.content_weight * metrics['content_loss']
             else:
@@ -285,6 +286,7 @@ class SRWGAN(WGAN_Core):
             elif 'g_loss' == key:
                 metrics['content_weight'] = self.content_weight
                 metrics['content_loss'] = self.contentLoss(sres, hres)
+                metrics['reconstruction_loss'] = reconstructionLoss(sres, hres)
                 metrics[key] = func(d_fake, None, sres, hres)
                 metrics['g_loss_total'] = metrics[key] + self.content_weight * metrics['content_loss']
             else:
