@@ -92,7 +92,7 @@ viz_callback = EpochVisualizer(srwgan_model, [true_sample, fake_sample])
 
 # Train the Model
 srwgan_model.fit(
-    lres[:train_num], hres[:train_num],
+    lres[:args.trainnum], hres[:args.train_num],
     dis_steps = args.dstep,
     gen_steps = args.gstep,
     gp_weight = args.gpweight,

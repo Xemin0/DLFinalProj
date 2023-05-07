@@ -33,13 +33,15 @@ def TrainDatasetFromFolder(dataset_dir = './Datasets'):
         
         lr_images.append(lr_transform)
         hr_images.append(hr_transform)
-        #print("hello")
-        #print(hr_transform)
 
     lr_images = tf.stack(lr_images)
     hr_images = tf.stack(hr_images)
-    #print(lr_images.shape)
-    #print(lr_images[0].shape)
+
+    print('*******************************************')
+    print('Successfully Loaded Data from:', dataset_dir)
+    print(f'Total: {lr_images.shape[0]} Low-Res Images \t {hr_images.shape[0]} High-Res Images')
+    print(f'Shapes: {lr_images.shape[1:]}\t{hr_images.shape[1:]}')
+    print('*******************************************')
 
     return tf.cast(lr_images, dtype = tf.float32), tf.cast(hr_images, dtype = tf.float32)
 
