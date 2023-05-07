@@ -40,7 +40,7 @@ class EpochVisualizer(tf.keras.callbacks.Callback):
             epoch = epoch
         )
 
-    def add_to_imgs(self, outputs, labels, epoch, nrows=1, ncols=8, figsize=(16, 5)):
+    def add_to_imgs(self, outputs, labels, epoch, nrows=1, ncols=4, figsize=(16, 5)):
         '''
         Plot the image samples in outputs in a pyplot figure and add the image
         to the 'imgs' list. Used to later generate a gif.
