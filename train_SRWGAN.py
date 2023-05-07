@@ -1,6 +1,10 @@
 ## Tensorflow
 import tensorflow as tf
 
+print('-----------------------------------------')
+print('List the Device info if GPU is available')
+print(tf.config.list_physical_devices('GPU'))
+print('-----------------------------------------')
 
 ## SRWGAN Modules
 from GANcore.SRWGAN import SRWGAN
