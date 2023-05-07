@@ -40,4 +40,4 @@ export PYTHONUNBUFFERED=TRUE
 #conda activate /anaconda3/envs/srwgan
 
 # Run the Python file with arguments
-python3 train_SRWGAN.py --trainnum 600 --epochs 200 --batchsz 4 --gpweight 16.0 --cweight 4 --savemodel True
+python3 train_SRWGAN.py --trainnum 600 --epochs 50 --batchsz 4 --gpweight 16.0 --cweight 4 --savemodel True
