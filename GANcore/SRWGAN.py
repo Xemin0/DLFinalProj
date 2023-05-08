@@ -76,7 +76,7 @@ class SRWGAN(WGAN_Core):
         scores = tf.image.psnr(super_res, high_res, max_val = 1.0)
         print('PSNR Achieved: ', scores )
         print(f'Average PSNR for the {low_res.shape[0]} image pairs: {tf.reduce_mean(scores):.5f}')
-        return scores
+        return scores, super_res, high_res
 
     '''
     Content Loss Part

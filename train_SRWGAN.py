@@ -113,8 +113,8 @@ history = srwgan_model.fit(
 ## or directly visualize the CallBack
 
 if args.savemodel:
-    save_model(srwgan_model.gen_model, args.chkpt_path + '/_Gen')
-    save_model(srwgan_model.crt_model, args.chkpt_path + '/_Dis')
+    save_model(srwgan_model.gen_model, args.chkpt_path + '_Gen')
+    save_model(srwgan_model.crt_model, args.chkpt_path + '_Dis')
 else:
     print('The model was not saved by default')
 
