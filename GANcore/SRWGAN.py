@@ -303,8 +303,8 @@ class SRWGAN(WGAN_Core):
 '''
 Save the Model
 '''
-def save_model(model, args):
+def save_model(model, path):
     '''Save model based on arguments - args must have chkpt_path'''
-    tf.keras.models.save_model(model, args.chkpt_path)
+    tf.keras.models.save_model(model, path)
     print(f"Model Save to '{args.chkpt_path}'")
 
