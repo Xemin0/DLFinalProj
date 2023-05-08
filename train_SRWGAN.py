@@ -107,11 +107,6 @@ history = srwgan_model.fit(
     callbacks = [viz_callback]
 )
 
-'''
-Save the metrics history as a dictionary
-'''
-with open('./trainHistoryDict', 'wb') as f:
-    pickle.dump(history.history, f)
 
 ## Either Save the model/Visualizer
 ## or directly visualize the CallBack
@@ -137,3 +132,8 @@ Visualizing the Results
 viz_callback.save_gif('generatedSuperRes')
 IPython.display.Image(open('generatedSuperRes.gif', 'rb').read())
 
+'''
+Save the metrics history as a dictionary
+'''
+with open('./trainHistoryDict', 'wb') as f:
+    pickle.dump(history.history, f)
