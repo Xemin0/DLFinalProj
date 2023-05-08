@@ -104,8 +104,8 @@ history = srwgan_model.fit(
     content_weight = args.cweight,
     epochs = args.epochs,
     batch_size = args.batchsz,
-    callbacks = [viz_callback],
-    return_dict = True
+    callbacks = [viz_callback]
+    #return_dict = True
 )
 
 
