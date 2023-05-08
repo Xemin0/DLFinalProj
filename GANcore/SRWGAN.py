@@ -64,8 +64,7 @@ class SRWGAN(WGAN_Core):
     '''
     Calculate PSNR for sample images
     '''
-    def psnr(samples):
-        low_res, high_res = samples
+    def psnr(low_res, high_res):
         assert low_res.shape == high_res.shape, 'Input must be two sets of images of the same shape (bsz, H, W, C)'
         super_res = self.gen_model(low_res)
 
