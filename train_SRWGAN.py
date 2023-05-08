@@ -122,10 +122,7 @@ else:
 '''
 Calculate PSNR for Sample Images - default calculating PSNR for 4 samples
 '''
-srwgan_model.psnr([
-    lres[args.trainnum-4 : args.trainnum],
-    hres[args.trainnum-4 : args.trainnum]
-])
+srwgan_model.psnr([ lres[args.trainnum-4 : args.trainnum], hres[args.trainnum-4 : args.trainnum] ])
 
 '''
 Visualizing the Results
