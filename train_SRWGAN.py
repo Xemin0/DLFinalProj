@@ -21,6 +21,7 @@ import IPython.display
 from GANcore.SRWGAN import save_model
 
 import argparse
+import pickle
 
 # Argument Parsing
 parser = argparse.ArgumentParser(description = 'SRWGAN in Tensorflow')
@@ -95,7 +96,7 @@ print('generatered super-res samples shape:', fake_sample.shape)
 viz_callback = EpochVisualizer(srwgan_model, [true_sample, fake_sample])
 
 # Train the Model
-srwgan_model.fit(
+history = srwgan_model.fit(
     lres[:args.trainnum], hres[:args.trainnum],
     dis_steps = args.dstep,
     gen_steps = args.gstep,
@@ -106,6 +107,12 @@ srwgan_model.fit(
     callbacks = [viz_callback]
 )
 
+'''
+Save the metrics history as a dictionary
+'''
+with open('./trainHistoryDict', 'wb') as f:
+    pickle.dump(history.history, f)
+
 ## Either Save the model/Visualizer
 ## or directly visualize the CallBack
 
@@ -113,6 +120,7 @@ if args.savemodel:
     save_model(srwgan_model, args.chkpt_path)
 else:
     print('The model was not saved by default')
+
 
 
 '''
