@@ -128,8 +128,8 @@ srwgan_model.psnr([ lres[args.trainnum-4 : args.trainnum], hres[args.trainnum-4 
 '''
 Visualizing the Results
 '''
-viz_callback.save_gif('generatedSuperRes')
-IPython.display.Image(open('generatedSuperRes.gif', 'rb').read())
+viz_callback.save_gif('./generated_samples/generatedSuperRes')
+IPython.display.Image(open('./generated_samples/generatedSuperRes.gif', 'rb').read())
 
 '''
 Save the metrics history as a dictionary
