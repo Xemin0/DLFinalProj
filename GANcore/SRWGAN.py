@@ -294,6 +294,15 @@ class SRWGAN(WGAN_Core):
 
         return metrics
 
+    def call(self, inputs, **kwargs):
+        bsz = inputs.shape[0]
+        sres = self.generate(inputs)
+        d_fake = self.criticize(sres)
+        print('Inputs shape :', inputs.shape)
+        print('Super Res Img shape :', sres.shape)
+        print('D(Super-Res) :', d_fake.shape)
+        return d_fake
+
     # Add content_weight for ContentLoss in SRWGAN-GP
     def fit(self, *args, content_weight = 1e-3, **kwargs):
         self.content_weight = content_weight
