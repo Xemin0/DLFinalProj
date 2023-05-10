@@ -133,5 +133,5 @@ dmypy.json
 Datasets/
 generated_samples/
 scratch/
-SRWGAN_Gen/
+#SRWGAN_Gen/
 SRWGAN_Dis/
