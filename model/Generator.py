@@ -6,7 +6,7 @@ from keras import layers, Sequential
 class Generator(keras.Model):
     '''
     Generator for the SRWGAN
-    *** tanh as the Activation at the Output to Guarantee a Centralized output around Zero ***
+    *** tanh as the Activation at the Output to Guarantee Centralized Pixel Values around Zero ***
 
     Primarily uses
         - Parametric ReLU as the activations;
