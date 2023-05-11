@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 ##    - Shape (B, 64, 64, C) # Ideally RGB channels, thus C = 3
 ##    - Range (-1, 1)
 
-test_Gen = load_gen() # Default path = './SRWGAN_Model'
+test_Gen = load_gen() # Default path = './SRWGAN_Gen'
 
 
 '''
