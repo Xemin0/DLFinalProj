@@ -32,14 +32,14 @@ python3 train_SRWGAN.py --trainnum 600 --epochs 40 --batchsz 4 --gpweight 16.0 -
 *You may want to take off your glasses, squint your eyes or take a few steps backwards when looking at the sample results*
 
 ### Sample Testing Results (Preliminarily pre-trained generator for 100 epochs on 800 images from DIV2K)
-![Comparisons of Low-Res, (Generated) Super-Res and High-Res Images from the Dataset](images/Gs100.png?raw=true "Title")
+![Comparisons of Low-Res, (Generated) Super-Res and High-Res Images from the Dataset](Images/Gs100.png?raw=true "Title")
 
 |Low-Resolution Image | Generated Super-Resolution Image|
 |:---:|:---:|
-| <img src="./images/jiresize.png" height="250">|<img src="https://github.com/Xemin0/DLFinalProj/blob/main/images/ji1sres.png" height="250">|
+| <img src="./Images/jiresize.png" height="250">|<img src="https://github.com/Xemin0/DLFinalProj/blob/main/Images/ji1sres.png" height="250">|
 
 
 |Low-Resolution GIF | Generated Super-Resolution GIF|
 |:---:|:---:|
-| <img src="https://github.com/Xemin0/DLFinalProj/blob/main/images/blueno_resized.gif" height="250">| <img src="https://github.com/Xemin0/DLFinalProj/blob/main/images/blueno_SR.gif" height="250">| 
+| <img src="https://github.com/Xemin0/DLFinalProj/blob/main/Images/blueno_resized.gif" height="250">| <img src="https://github.com/Xemin0/DLFinalProj/blob/main/Images/blueno_SR.gif" height="250">| 
 
