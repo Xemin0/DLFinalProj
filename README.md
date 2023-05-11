@@ -36,10 +36,10 @@ python3 train_SRWGAN.py --trainnum 600 --epochs 40 --batchsz 4 --gpweight 16.0 -
 
 |Low-Resolution Image | Generated Super-Resolution Image|
 |:---:|:---:|
-| <img src="./Images/jiresize.png" height="250">|<img src="https://github.com/Xemin0/DLFinalProj/blob/main/Images/ji1sres.png" height="250">|
+| <img src="./Images/jiresize.png" height="250">|<img src="./Images/ji1sres.png" height="250">|
 
 
 |Low-Resolution GIF | Generated Super-Resolution GIF|
 |:---:|:---:|
-| <img src="https://github.com/Xemin0/DLFinalProj/blob/main/Images/blueno_resized.gif" height="250">| <img src="https://github.com/Xemin0/DLFinalProj/blob/main/Images/blueno_SR.gif" height="250">| 
+| <img src="./Images/blueno_resized.gif" height="250">| <img src="./Images/blueno_SR.gif" height="250">| 
 
