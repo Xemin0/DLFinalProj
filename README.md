@@ -3,7 +3,7 @@
 
 Implemented on `Python3.10` and `Tensorflow2.12.0`. Dataset: DIV2K
 
-**(CUDA11.8 and CuDNN8.7.0 if using GPU/TPU)**
+**(CUDA11.8 and CuDNN8.7.0 if using GPU/TPU)** 
 
 ### Required Packages
 - For training: `tensorflow`, (`IPython`, `PILLOW`, `matplotlib` if using the `utils.CallBack` module)
