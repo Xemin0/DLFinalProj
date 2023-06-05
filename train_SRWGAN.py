@@ -57,7 +57,8 @@ srwgan_model = SRWGAN(
     z_dims = [None, None],  # Not using random samples for Generator's Input in SRWGAN 
     # Default Values
     pretrained = args.pretrained,
-    hyperimg_ids = [2, 7, 10, 14],
+    hyperimg_ids = [2, 7, 10, 14], # index of intermediate features from a pretrained model for calculating the Content Loss; 
+                                   # *** Check model/SRWGAN.py for more information ***
     lr_shape = [64, 64, 3],     # Low-Res Images as the input for Generator
     hr_shape = [256, 256, 3]    # High-Res Images as the ground Truth; 
 )                               # Super-Res Images as the output for Generator 
