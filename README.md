@@ -47,7 +47,8 @@ python3 train_SRWGAN.py --trainnum 600 --epochs 40 --batchsz 4 --gpweight 16.0 -
 
 ### Reach Goals
 - Adding support for videos
-- Adding noises or other complicated downscaling methods in data preprocessing to incease the model's robustness and generalizability.
+- Adding noises, Adversarial Attacks or other complicated downscaling methods in data preprocessing to incease the model's robustness and generalizability.
+- Consider frequency domain upsampling methods (e.g. Fourier Transform)
 - Adding user-friendly interface for testing trained Generators on images and GIFs.
 - Adding [Self-Adaptive Weights](https://github.com/levimcclenny/SA-PINNs) for the different loss terms
 - Incorporate non-gradient-descent methods, such as Optimal Transport Theory (Sinkhorn Algorithm implemented and included under `./utils/`) into the model.
